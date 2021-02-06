@@ -104,7 +104,7 @@ function MessageCreate(hpChange, name, isPlayer, hideName) {
 	};
 
 	//ChatMessage.create(chatData, {});
-	if((chatData)!== '' && spamcontrol) {
+	if((chatData)!== '' && game.settings.get('health-monitor', 'Enable_Disable')) {
 		ChatMessage.create(chatData, {});	
 	}
 }
