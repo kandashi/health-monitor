@@ -23,14 +23,14 @@ Hooks.once('init', async function () {
 		config: true,
 		hint: 'Show to players the player updates'
 	});
-	game.settings.register('health-monitor', 'Enable_Disable', {
-		name: 'Enable/Disable',
-		default: true,
-		type: Boolean,
-		scope: 'world',
-		config: true,
-		hint: 'Enable/Disable chat messages'
-	});
+	// game.settings.register('health-monitor', 'Enable_Disable', {
+	// 	name: 'Enable/Disable',
+	// 	default: true,
+	// 	type: Boolean,
+	// 	scope: 'world',
+	// 	config: true,
+	// 	hint: 'Enable/Disable chat messages'
+	// });
 });
 
 //spam in chat if token (NPC) is updated
@@ -103,10 +103,10 @@ function MessageCreate(hpChange, name, isPlayer, hideName) {
 
 	};
 
-	//ChatMessage.create(chatData, {});
-	if((chatData)!== '' && game.settings.get('health-monitor', 'Enable_Disable')) {
-		ChatMessage.create(chatData, {});	
-	}
+	ChatMessage.create(chatData, {});
+	// if((chatData)!== '' && game.settings.get('health-monitor', 'Enable_Disable')) {
+	// 	ChatMessage.create(chatData, {});	
+	// }
 }
 
 Hooks.on("renderChatMessage", (app, html, data) => {
@@ -136,24 +136,24 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 	}
 });
 
-Hooks.on('renderSceneControls', (controls, html) => {
-	let gm = game.user === game.users.find((u) => u.isGM && u.active)
-	if (gm) { //  || game.user.isGM
-		const hmBtn = $(
-		`<li class="control-tool toggle" data-control="hm" data-canvas-layer="hmlayer" title="hm Controls">
-				<i class="fas fa-heartbeat"></i>
-				</li>`
-		);
-		html.append(hmBtn);
-		hmBtn[0].addEventListener('click', evt => {
-			evt.stopPropagation();
-			hmBtn.toggleClass("active");
-			if (game.settings.get('health-monitor', 'Enable_Disable')){
-				game.settings.get('health-monitor', 'Enable_Disable') = false;
-			}else{
-				game.settings.get('health-monitor', 'Enable_Disable') = true;
-			}
-			//console.log(spamcontrol);
-		});
-	}
-});	
+// Hooks.on('renderSceneControls', (controls, html) => {
+// 	let gm = game.user === game.users.find((u) => u.isGM && u.active)
+// 	if (gm) {
+// 		const hmBtn = $(
+// 		`<li class="control-tool toggle" data-control="hm" data-canvas-layer="hmlayer" title="hm Controls">
+// 				<i class="fas fa-heartbeat"></i>
+// 				</li>`
+// 		);
+// 		html.append(hmBtn);
+// 		hmBtn[0].addEventListener('click', evt => {
+// 			evt.stopPropagation();
+// 			hmBtn.toggleClass("active");
+// 			if (game.settings.get('health-monitor', 'Enable_Disable')){
+// 				game.settings.get('health-monitor', 'Enable_Disable') = false;
+// 			}else{
+// 				game.settings.get('health-monitor', 'Enable_Disable') = true;
+// 			}
+// 			//console.log(spamcontrol);
+// 		});
+// 	}
+// });	
