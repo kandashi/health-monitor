@@ -27,7 +27,7 @@ Hooks.once('init', async function () {
 
 //spam in chat if token (NPC) is updated
 Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
-		let gm = game.user === game.users.find((u) => u.isGM && u.active)
+	let gm = game.user === game.users.find((u) => u.isGM && u.active)
     if (!gm) return;
 	let hp = getProperty(update, "actorData.data.attributes.hp");
 	if (hp !== undefined) {
@@ -47,7 +47,8 @@ Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
 });
 //spam in chat if the actor is updated
 Hooks.on('preUpdateActor', async (actor, update, options, userId) => {
-
+	let gm = game.user === game.users.find((u) => u.isGM && u.active)
+    if (!gm && game.settings.get('health-monitor', 'GM_Vision')) return;
 	let hp = getProperty(update, "data.attributes.hp");
 	if (hp !== undefined) {
 		let data = {
