@@ -23,6 +23,14 @@ Hooks.once('init', async function () {
 		config: true,
 		hint: 'Show to players the player updates'
 	});
+	game.settings.register('health-monitor', 'Enable_Disable', {
+		name: 'Enable/Disable',
+		default: true,
+		type: Boolean,
+		scope: 'world',
+		config: true,
+		hint: 'Enable/Disable chat messages'
+	});
 });
 
 //spam in chat if token (NPC) is updated
@@ -95,7 +103,10 @@ function MessageCreate(hpChange, name, isPlayer, hideName) {
 
 	};
 
-	ChatMessage.create(chatData, {});
+	//ChatMessage.create(chatData, {});
+	if((chatData)!== '' && spamcontrol) {
+		ChatMessage.create(chatData, {});	
+	}
 }
 
 Hooks.on("renderChatMessage", (app, html, data) => {
@@ -127,7 +138,7 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 
 Hooks.on('renderSceneControls', (controls, html) => {
 	let gm = game.user === game.users.find((u) => u.isGM && u.active)
-	if (gm || game.user.isGM) {
+	if (gm) { //  || game.user.isGM
 		const hmBtn = $(
 		`<li class="control-tool toggle" data-control="hm" data-canvas-layer="hmlayer" title="hm Controls">
 				<i class="fas fa-heartbeat"></i>
@@ -137,10 +148,11 @@ Hooks.on('renderSceneControls', (controls, html) => {
 		hmBtn[0].addEventListener('click', evt => {
 			evt.stopPropagation();
 			hmBtn.toggleClass("active");
-			// if (spamcontrol)
-			// 	spamcontrol=0;
-			// else
-			// 	spamcontrol=1;
+			if (game.settings.get('health-monitor', 'Enable_Disable')){
+				game.settings.get('health-monitor', 'Enable_Disable') = false;
+			}else{
+				game.settings.get('health-monitor', 'Enable_Disable') = true;
+			}
 			//console.log(spamcontrol);
 		});
 	}
