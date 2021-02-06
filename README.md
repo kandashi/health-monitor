@@ -4,7 +4,7 @@ A simple spam bot made for FVTT that send a message in chat when health of token
 
 <img src="https://cdn.discordapp.com/attachments/648215359895240715/713895752555823234/health_monitor.gif"></img>
 
-changes 1.0.8
+changes 1.1.0
 
 Added the option to show/hide players names to the players. 
 

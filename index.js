@@ -124,3 +124,24 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 		html.find(".message-metadata")[0].style.display = "none";
 	}
 });
+
+Hooks.on('renderSceneControls', (controls, html) => {
+	let gm = game.user === game.users.find((u) => u.isGM && u.active)
+	if (gm || game.user.isGM) {
+		const hmBtn = $(
+		`<li class="control-tool toggle" data-control="hm" data-canvas-layer="hmlayer" title="hm Controls">
+				<i class="fas fa-heartbeat"></i>
+				</li>`
+		);
+		html.append(hmBtn);
+		hmBtn[0].addEventListener('click', evt => {
+			evt.stopPropagation();
+			hmBtn.toggleClass("active");
+			// if (spamcontrol)
+			// 	spamcontrol=0;
+			// else
+			// 	spamcontrol=1;
+			//console.log(spamcontrol);
+		});
+	}
+});	
