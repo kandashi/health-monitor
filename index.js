@@ -15,6 +15,14 @@ Hooks.once('init', async function () {
 		config: true,
 		hint: 'Display notification only to GM'
 	});
+	game.settings.register('health-monitor', 'show_to_players_the_player_updates', {
+		name: 'Show to players the player updates',
+		default: false,
+		type: Boolean,
+		scope: 'world',
+		config: true,
+		hint: 'Show to players the player updates'
+	});
 });
 
 //spam in chat if token (NPC) is updated
@@ -34,7 +42,7 @@ Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
 		if (isNaN(data.updateTemp)) data.updateTemp = data.actorTemp
 		if(isNaN(data.updateHP)) data.updateHP = data.actorHP
 		let change = (data.updateHP + data.updateTemp)- (data.actorHP + data.actorTemp)
-		MessageCreate(change, actor.data.name)
+		MessageCreate(change, actor.data.name, false, game.settings.get('health-monitor', 'npc_name'), false);
 	}
 });
 //spam in chat if the actor is updated
@@ -52,14 +60,14 @@ Hooks.on('preUpdateActor', async (actor, update, options, userId) => {
 		if (isNaN(data.updateTemp)) data.updateTemp = data.actorTemp
 		if(isNaN(data.updateHP)) data.updateHP = data.actorHP
 		let change = (data.updateHP + data.updateTemp)- (data.actorHP + data.actorTemp)
-		MessageCreate(change, data.actor.data.name)
+		MessageCreate(change, data.actor.data.name, true, !game.settings.get('health-monitor', 'show_to_players_the_player_updates'));
 	}
 });
 // This is for chat styling
 
-function MessageCreate(hpChange, name) {
+function MessageCreate(hpChange, name, isPlayer, hideName) {
 	if (hpChange > 0) {
-		if (game.settings.get('health-monitor', 'npc_name')) {
+		if (hideName && !isPlayer) {
 			content = '<span class="hm_messageheal">' + ' Unknown entity' + ' heals ' + hpChange + ' damage </span>'
 		}
 		else {
@@ -68,7 +76,7 @@ function MessageCreate(hpChange, name) {
 	}
 	if (hpChange < 0) {
 		hpChange = -hpChange
-		if (game.settings.get('health-monitor', 'npc_name')) {
+		if (hideName && !isPlayer) {
 			content = '<span class="hm_messagetaken">' + ' Unknown entity' + ' takes ' + hpChange + ' damage </span>'
 		}
 		else {
