@@ -142,7 +142,7 @@ function MessageCreate(hpChange, name, isPlayer, hideName, resWeakImmun ) {
 
 	//chatData.whisper = game.users.entities.filter(u => u.isGM).map(u => u._id);
 
-	ChatMessage.create(chatData, {});
+	ChatMessage.create({},chatData);
 	// if((chatData)!== '' && game.settings.get(MODULE_NAME, 'Enable_Disable')) {
 	// 	ChatMessage.create(chatData, {});	
 	// }
