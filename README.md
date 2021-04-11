@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/Foundry-v0.7.9-informational)
+
 # Health Monitor
 
 A simple spam bot made for FVTT that send a message in chat when health of token/actor changes.
