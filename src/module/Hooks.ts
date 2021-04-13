@@ -107,7 +107,7 @@ export let initHooks = () => {
 
 // This is for chat styling
 
-function MessageCreate(hpChange, name, isPlayer, hideName, resWeakImmun ) {
+const MessageCreate = async function(hpChange, name, isPlayer, hideName, resWeakImmun ) {
 
   let content = "";
 
@@ -131,22 +131,22 @@ function MessageCreate(hpChange, name, isPlayer, hideName, resWeakImmun ) {
 			content = '<span class="hm_messagetaken">' + name + ' takes ' + hpChange + ' damage ' +resWeakImmun +'</span>'
 		}
 	}
-	let recipient;
+	let recipient:User = game.user;
 	if (game.settings.get(MODULE_NAME, 'GM_Vision')){
-		recipient = game.users.find((u) => u.isGM && u.active).id;
+		recipient = game.users.find((u) => u.isGM && u.active);
 	}
-	let chatData = {
+	let chatData:any = {
 		type: 4,
 		user: recipient,
-		speaker: { alias: "Health Monitor" },
+		speaker: { alias: game.user.name },
 		content: content,
-		whisper: [recipient]
-
+		whisper: [recipient],
 	};
 
 	//chatData.whisper = game.users.entities.filter(u => u.isGM).map(u => u._id);
 
-	ChatMessage.create({},chatData);
+	await ChatMessage.create(chatData,{});
+	
 	// if((chatData)!== '' && game.settings.get(MODULE_NAME, 'Enable_Disable')) {
 	// 	ChatMessage.create(chatData, {});
 	// }
