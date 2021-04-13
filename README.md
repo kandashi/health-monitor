@@ -6,6 +6,10 @@ A simple spam bot made for FVTT that send a message in chat when health of token
 
 <img src="https://cdn.discordapp.com/attachments/648215359895240715/713895752555823234/health_monitor.gif"></img>
 
+## NOTE
+
+This is a upgrade of the project [health-monitor](https://github.com/rockshow888/health-monitor) ty to [rockshow888](https://github.com/rockshow888) in preparation of foundry vtt 0.8.0.
+
 ## Installation
 
 It's always easiest to install modules from the in game add-on browser.

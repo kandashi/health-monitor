@@ -53,6 +53,14 @@ export const registerSettings = function () {
 	// 	config: true,
 	// 	hint: 'Enable/Disable chat messages'
 	// });
+  game.settings.register(MODULE_NAME, 'showImmunitiesAndResistances', {
+		name: 'Show Immunities and Resistances',
+		default: false,
+		type: Boolean,
+		scope: 'world',
+		config: true,
+		hint: 'Show Immunities and Resistances'
+	});
 
 }
 

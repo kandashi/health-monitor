@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.1.2
+
+- Add a new settings for show immunities and resistances if you need
+## 1.1.1
+
+- Minor bug fix
 ## 1.1.0
 
 - Converted to typescript project

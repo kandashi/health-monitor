@@ -35,7 +35,7 @@ Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
     }
 
 		let change = (data.updateHP + data.updateTemp) - (data.actorHP + data.actorTemp);
-  
+
     let resWeakImmun = "";
     if(tokenData?.actorData?.data?.traits){
       resWeakImmun += tokenData.actorData.data.traits.di.value.length == 0 ? '': '<br/>Immunity:' +tokenData.actorData.data.traits.di.value.toString();
@@ -43,13 +43,13 @@ Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
       resWeakImmun += tokenData.actorData.data.traits.dv.length == 0 ? '': '<br/>Vulnerable:' +Object.values(tokenData.actorData.data.traits.dv.value).map((a:any)=> a).join(",");
     }
 		MessageCreate(
-      change, 
-      actor.data.name, 
-      false, 
+      change,
+      actor.data.name,
+      false,
       game.settings.get(MODULE_NAME, 'npc_name'),
-      resWeakImmun 
+      resWeakImmun
     );
-    
+
 	}
 });
 
@@ -88,11 +88,11 @@ Hooks.on('preUpdateActor', async (actor, update, options, userId) => {
       resWeakImmun += actor.data.data.traits.dv.length == 0 ? '': '<br/>Vulnerable:' + Object.values(actor.data.data.traits.dv.value).map((a:any)=> a).join(",");
     }
 		MessageCreate(
-      change, 
-      data.actor.data.name, 
-      true, 
+      change,
+      data.actor.data.name,
+      true,
       !game.settings.get(MODULE_NAME, 'show_to_players_the_player_updates'),
-      resWeakImmun 
+      resWeakImmun
     );
 	}
 });
@@ -110,6 +110,10 @@ export let initHooks = () => {
 function MessageCreate(hpChange, name, isPlayer, hideName, resWeakImmun ) {
 
   let content = "";
+
+  if (!<boolean>game.settings.get(MODULE_NAME, 'showImmunitiesAndResistances')){
+    resWeakImmun = '';
+  }
 	if (hpChange > 0) {
 		if (hideName && !isPlayer) {
 			content = '<span class="hm_messageheal">' + ' Unknown entity' + ' heals ' + hpChange + ' damage ' +resWeakImmun +'</span>'
@@ -144,7 +148,7 @@ function MessageCreate(hpChange, name, isPlayer, hideName, resWeakImmun ) {
 
 	ChatMessage.create({},chatData);
 	// if((chatData)!== '' && game.settings.get(MODULE_NAME, 'Enable_Disable')) {
-	// 	ChatMessage.create(chatData, {});	
+	// 	ChatMessage.create(chatData, {});
 	// }
 }
 
@@ -173,7 +177,7 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 		html.find(".message-sender").text("");
 		html.find(".message-metadata")[0].style.display = "none";
 	}
-	
+
 });
 
 // Hooks.on('renderSceneControls', (controls, html) => {
@@ -196,4 +200,4 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 // 			//console.log(spamcontrol);
 // 		});
 // 	}
-// });	
+// });
