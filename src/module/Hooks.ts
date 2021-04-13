@@ -10,9 +10,9 @@ export let readyHooks = async () => {
 Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
 
 	let gm = game.user === game.users.find((u) => u.isGM && u.active)
-  if (!gm && game.settings.get(MODULE_NAME, 'GM_Vision')){
-    return;
-  }
+	if (!gm && game.settings.get(MODULE_NAME, 'GM_Vision')){
+		return;
+	}
 
 	let hp = getProperty(update, "actorData.data.attributes.hp");
 
@@ -24,13 +24,13 @@ Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
 			updateHP: update.actorData.data.attributes.hp.value,
 			updateTemp: getProperty(update, "actorData.data.attributes.hp.temp")
 		}
-		if(isNaN(data.actorTemp)){
+	if(isNaN(data.actorTemp)){
       data.actorTemp = 0;
     }
-		if (isNaN(data.updateTemp)){
+	if (isNaN(data.updateTemp)){
       data.updateTemp = data.actorTemp;
     }
-		if(isNaN(data.updateHP)){
+	if(isNaN(data.updateHP)){
       data.updateHP = data.actorHP;
     }
 
@@ -38,11 +38,18 @@ Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
 
     let resWeakImmun = "";
     if(tokenData?.actorData?.data?.traits){
-      resWeakImmun += tokenData.actorData.data.traits.di.value.length == 0 ? '': '<br/>Immunity:' +tokenData.actorData.data.traits.di.value.toString();
-      resWeakImmun += tokenData.actorData.data.traits.dr.length == 0 ? '': '<br/>Resistance:' +Object.values(tokenData.actorData.data.traits.dr.value).map((a:any)=> a).join(",");
-      resWeakImmun += tokenData.actorData.data.traits.dv.length == 0 ? '': '<br/>Vulnerable:' +Object.values(tokenData.actorData.data.traits.dv.value).map((a:any)=> a).join(",");
+		if(tokenData.actorData.data.traits.di){
+    		resWeakImmun += tokenData.actorData.data.traits.di.value.length == 0 ? '': '<br/>Immunity:' +tokenData.actorData.data.traits.di.value.toString();
+		}
+		if(tokenData.actorData.data.traits.dr){
+			resWeakImmun += tokenData.actorData.data.traits.dr.length == 0 ? '': '<br/>Resistance:' +Object.values(tokenData.actorData.data.traits.dr.value).map((a:any)=> a).join(",");
+		}
+		if(tokenData.actorData.data.traits.dv){
+			resWeakImmun += tokenData.actorData.data.traits.dv.length == 0 ? '': '<br/>Vulnerable:' +Object.values(tokenData.actorData.data.traits.dv.value).map((a:any)=> a).join(",");
+		}
     }
-		MessageCreate(
+
+	MessageCreate(
       change,
       actor.data.name,
       false,
@@ -58,9 +65,9 @@ Hooks.on("preUpdateToken", async (scene, tokenData, update, options) => {
 Hooks.on('preUpdateActor', async (actor, update, options, userId) => {
 
 	let gm = game.user === game.users.find((u) => u.isGM && u.active)
-  if (!gm && game.settings.get(MODULE_NAME, 'GM_Vision')){
-    return;
-  }
+	if (!gm && game.settings.get(MODULE_NAME, 'GM_Vision')){
+		return;
+	}
 
 	let hp = getProperty(update, "data.attributes.hp");
 
@@ -72,22 +79,28 @@ Hooks.on('preUpdateActor', async (actor, update, options, userId) => {
 			updateHP: update.data.attributes.hp.value,
 			updateTemp: getProperty(update, "data.attributes.hp.temp"),
 		};
-		if (isNaN(data.updateTemp)) {
+	if (isNaN(data.updateTemp)) {
       data.updateTemp = data.actorTemp;
     }
-		if(isNaN(data.updateHP)) {
+	if(isNaN(data.updateHP)) {
       data.updateHP = data.actorHP;
     }
 
-		let change = (data.updateHP + data.updateTemp)- (data.actorHP + data.actorTemp);
+	let change = (data.updateHP + data.updateTemp)- (data.actorHP + data.actorTemp);
 
     let resWeakImmun = "";
     if(actor?.data?.data?.traits){
-      resWeakImmun += actor.data.data.traits.di.value.length == 0 ? '': '<br/>Immunity:' + actor.data.data.traits.di.value.toString();
-      resWeakImmun += actor.data.data.traits.dr.length == 0 ? '': '<br/>Resistance:' + Object.values(actor.data.data.traits.dr.value).map((a:any)=> a).join(",");
-      resWeakImmun += actor.data.data.traits.dv.length == 0 ? '': '<br/>Vulnerable:' + Object.values(actor.data.data.traits.dv.value).map((a:any)=> a).join(",");
+		if(actor.data.data.traits.di){
+    		resWeakImmun += actor.data.data.traits.di.value.length == 0 ? '': '<br/>Immunity:' + actor.data.data.traits.di.value.toString();
+		}
+		if(actor.data.data.traits.dr){
+			resWeakImmun += actor.data.data.traits.dr.length == 0 ? '': '<br/>Resistance:' + Object.values(actor.data.data.traits.dr.value).map((a:any)=> a).join(",");
+		}
+		if(actor.data.data.traits.dv){
+			resWeakImmun += actor.data.data.traits.dv.length == 0 ? '': '<br/>Vulnerable:' + Object.values(actor.data.data.traits.dv.value).map((a:any)=> a).join(",");
+		}
     }
-		MessageCreate(
+	MessageCreate(
       change,
       data.actor.data.name,
       true,
@@ -109,11 +122,11 @@ export let initHooks = () => {
 
 const MessageCreate = async function(hpChange, name, isPlayer, hideName, resWeakImmun ) {
 
-  let content = "";
+  	let content = "";
 
-  if (!<boolean>game.settings.get(MODULE_NAME, 'showImmunitiesAndResistances')){
-    resWeakImmun = '';
-  }
+	if (!<boolean>game.settings.get(MODULE_NAME, 'showImmunitiesAndResistances')){
+		resWeakImmun = '';
+	}
 	if (hpChange > 0) {
 		if (hideName && !isPlayer) {
 			content = '<span class="hm_messageheal">' + ' Unknown entity' + ' heals ' + hpChange + ' damage ' +resWeakImmun +'</span>'
