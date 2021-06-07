@@ -1,0 +1,54 @@
+{
+  "name": "health-monitor",
+  "title": "Health Monitor",
+  "description": "A simple spam bot that allert in chat you when health of token/actor changes.",
+  "version": "1.1.2",
+  "author": "Rockshow, Kandashi, CodeAsa and p4535992",
+  "type": "module",
+  "socket": true,
+  "includes": [
+    "./assets/**",
+    "./lang/**",
+    "./scripts/**",
+    "./styles/**",
+    "./templates/**",
+    "./module.json",
+    "./README.md",
+    "./icons/**",
+    "./packs/**"
+  ],
+  "media": [
+    {
+      "type": "icon",
+      "location": ""
+    },
+    {
+      "type": "cover",
+      "location": ""
+    },
+    {
+      "type": "screenshot",
+      "location": ""
+    }
+  ],
+  "languages": [
+
+  ],
+  "scripts": [
+
+  ],
+  "esmodules": [
+    "health-monitor.js"
+  ],
+  "styles": [
+
+  ],
+  "url": "https://github.com/p4535992/health-monitor",
+  "manifest": "https://raw.githubusercontent.com/p4535992/health-monitor/master/src/module.json",
+  "download": "https://raw.githubusercontent.com/p4535992/health-monitor/master/package/health-monitor-v1.1.2.zip",
+  "minimumCoreVersion": "0.7.6",
+  "compatibleCoreVersion": "0.7.9",
+  "changelog": "https://raw.githubusercontent.com/p4535992/health-monitor/master/changelog.md",
+  "bugs": "https://github.com/p4535992/health-monitor/issues",
+  "allowBugReporter": true
+}
